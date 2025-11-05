@@ -1,0 +1,5 @@
+node_modules
+server.js
+assessments.json
+.env.local
+.DS_Store

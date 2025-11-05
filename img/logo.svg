@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="95" fill="#1e3a5f" stroke="#2c5282" stroke-width="2"/>
+
+  <!-- Pyramid Layers (Five Dysfunctions) -->
+  <!-- Layer 5 (Top - Results) -->
+  <path d="M 100 35 L 85 55 L 115 55 Z" fill="#3182ce" opacity="0.9"/>
+
+  <!-- Layer 4 (Accountability) -->
+  <path d="M 85 55 L 115 55 L 135 75 L 65 75 Z" fill="#4299e1" opacity="0.9"/>
+
+  <!-- Layer 3 (Commitment) -->
+  <path d="M 65 75 L 135 75 L 155 95 L 45 95 Z" fill="#63b3ed" opacity="0.9"/>
+
+  <!-- Layer 2 (Conflict) -->
+  <path d="M 45 95 L 155 95 L 175 115 L 25 115 Z" fill="#90cdf4" opacity="0.9"/>
+
+  <!-- Layer 1 (Trust - Base) -->
+  <path d="M 25 115 L 175 115 L 190 135 L 10 135 Z" fill="#bee3f8" opacity="0.9"/>
+
+  <!-- Center Circle with Icon -->
+  <circle cx="100" cy="100" r="25" fill="white" opacity="0.95"/>
+
+  <!-- Team Icon - Three People -->
+  <g transform="translate(100, 100)">
+    <!-- Person 1 (Left) -->
+    <circle cx="-12" cy="-5" r="4" fill="#1e3a5f"/>
+    <path d="M -12 0 L -12 10 M -16 5 L -8 5" stroke="#1e3a5f" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+    <!-- Person 2 (Center) -->
+    <circle cx="0" cy="-8" r="4.5" fill="#2c5282"/>
+    <path d="M 0 -3 L 0 10 M -5 3 L 5 3" stroke="#2c5282" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+    <!-- Person 3 (Right) -->
+    <circle cx="12" cy="-5" r="4" fill="#1e3a5f"/>
+    <path d="M 12 0 L 12 10 M 8 5 L 16 5" stroke="#1e3a5f" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Text - 5D -->
+  <text x="100" y="175" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">5D</text>
+  <text x="100" y="190" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle" opacity="0.8">TEAM ASSESSMENT</text>
+</svg>

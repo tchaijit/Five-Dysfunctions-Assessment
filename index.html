@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Five Dysfunctions of a Team Assessment | วัดจุดอ่อน 5 ประการของทีม</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+            padding: 0;
+            color: #2d3748;
+        }
+
+        .top-banner {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            padding: 8px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .top-banner-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-text {
+            color: white;
+        }
+
+        .logo-text h1 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            opacity: 0.85;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            min-height: calc(100vh - 66px);
+        }
+
+        .header {
+            background: white;
+            color: #1e3a5f;
+            padding: 40px 60px 30px;
+            border-bottom: 3px solid #e2e8f0;
+            position: relative;
+        }
+
+        .header-content {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: #1e3a5f;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: #4a5568;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 0;
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .mode-button {
+            background: transparent;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #4a5568;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .mode-button.active {
+            background: #1e3a5f;
+            color: white;
+            box-shadow: 0 2px 4px rgba(30, 58, 95, 0.2);
+        }
+
+        .mode-button:hover:not(.active) {
+            background: #edf2f7;
+            color: #2d3748;
+        }
+
+        .language-toggle {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #4a5568;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .language-toggle:hover {
+            border-color: #2c5282;
+            color: #1e3a5f;
+            background: #f7fafc;
+        }
+
+        .content {
+            padding: 40px 60px;
+            background: #fafbfc;
+        }
+
+        .intro {
+            background: white;
+            padding: 35px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .intro h2 {
+            color: #1e3a5f;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .intro p {
+            color: #4a5568;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .name-input-section {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .name-input-section h3 {
+            color: #1e3a5f;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+
+        .name-input {
+            width: 100%;
+            max-width: 450px;
+            padding: 14px 18px;
+            font-size: 1rem;
+            border: 2px solid #cbd5e0;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: #2c5282;
+            box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
+        }
+
+        .pyramid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+            gap: 6px;
+        }
+
+        .pyramid-level {
+            background: linear-gradient(135deg, #2c5282 0%, #1e3a5f 100%);
+            color: white;
+            padding: 16px;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .pyramid-level:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.2);
+        }
+
+        .pyramid-level:nth-child(1) { width: 35%; }
+        .pyramid-level:nth-child(2) { width: 50%; }
+        .pyramid-level:nth-child(3) { width: 65%; }
+        .pyramid-level:nth-child(4) { width: 80%; }
+        .pyramid-level:nth-child(5) { width: 100%; }
+
+        .question-section {
+            margin-bottom: 40px;
+        }
+
+        .dysfunction-header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            color: white;
+            padding: 24px 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.15);
+        }
+
+        .dysfunction-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .dysfunction-header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .question-item {
+            background: white;
+            padding: 28px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+
+        .question-item:hover {
+            border-color: #cbd5e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .question-text {
+            font-size: 1rem;
+            margin-bottom: 18px;
+            color: #2d3748;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .rating-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .rating-option {
+            flex: 1;
+            min-width: 85px;
+        }
+
+        .rating-option input[type="radio"] {
+            display: none;
+        }
+
+        .rating-option label {
+            display: block;
+            padding: 12px;
+            text-align: center;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 0.95rem;
+        }
+
+        .rating-option input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, #2c5282 0%, #1e3a5f 100%);
+            color: white;
+            border-color: #1e3a5f;
+            transform: scale(1.02);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.25);
+        }
+
+        .rating-option label:hover {
+            border-color: #2c5282;
+            background: #edf2f7;
+        }
+
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #718096;
+            font-weight: 400;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #2c5282 0%, #1e3a5f 100%);
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            font-size: 1.05rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: block;
+            margin: 40px auto;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.2);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.3);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            margin-top: 40px;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .results-header h2 {
+            color: #1e3a5f;
+            font-size: 2rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .results-header h3 {
+            color: #2c5282;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .chart-container {
+            max-width: 650px;
+            margin: 0 auto 40px;
+            background: white;
+            padding: 35px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .scores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .score-card {
+            background: linear-gradient(135deg, #2c5282 0%, #1e3a5f 100%);
+            color: white;
+            padding: 28px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.2);
+        }
+
+        .score-card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .score-value {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .recommendations {
+            background: white;
+            padding: 35px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .recommendations h3 {
+            color: #1e3a5f;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .recommendation-item {
+            background: #f7fafc;
+            padding: 24px;
+            margin-bottom: 18px;
+            border-radius: 6px;
+            border-left: 4px solid #2c5282;
+        }
+
+        .recommendation-item h4 {
+            color: #1e3a5f;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .recommendation-item ul {
+            margin-left: 20px;
+        }
+
+        .recommendation-item li {
+            margin-bottom: 10px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .reset-button {
+            background: white;
+            color: #2c5282;
+            border: 2px solid #2c5282;
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .reset-button:hover {
+            background: #2c5282;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(44, 82, 130, 0.2);
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2c5282 0%, #1e3a5f 100%);
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .team-summary {
+            margin-top: 30px;
+        }
+
+        .team-stats {
+            background: white;
+            padding: 35px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .team-stats h3 {
+            color: #1e3a5f;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: #f7fafc;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-item strong {
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .stat-item span {
+            color: #1e3a5f;
+            font-weight: 600;
+        }
+
+        .participant-list {
+            background: white;
+            padding: 35px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .participant-list h3 {
+            color: #1e3a5f;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+
+        .participant-item {
+            background: #f7fafc;
+            padding: 22px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .participant-item:hover {
+            border-color: #cbd5e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .participant-info {
+            flex: 1;
+        }
+
+        .participant-name {
+            font-weight: 600;
+            color: #1e3a5f;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .participant-date {
+            color: #718096;
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+        .participant-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-button {
+            background: #2c5282;
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .action-button:hover {
+            background: #1e3a5f;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.25);
+        }
+
+        .action-button.delete {
+            background: #e53e3e;
+        }
+
+        .action-button.delete:hover {
+            background: #c53030;
+        }
+
+        .export-import-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .button-group {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        @media (max-width: 768px) {
+            .top-banner-content {
+                padding: 0 20px;
+            }
+
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .logo-text h1 {
+                font-size: 1rem;
+            }
+
+            .logo-text p {
+                font-size: 0.7rem;
+            }
+
+            .header {
+                padding: 30px 20px 20px;
+            }
+
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .header-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .mode-selector {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .mode-button {
+                width: 100%;
+            }
+
+            .content {
+                padding: 25px 20px;
+            }
+
+            .rating-options {
+                flex-direction: column;
+            }
+
+            .rating-option {
+                min-width: 100%;
+            }
+
+            .participant-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .participant-actions {
+                margin-top: 15px;
+                width: 100%;
+            }
+
+            .action-button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-banner">
+        <div class="top-banner-content">
+            <div class="logo-section">
+                <img src="img/logo.svg" alt="5D Team Assessment Logo" class="logo">
+                <div class="logo-text">
+                    <h1>Five Dysfunctions Assessment</h1>
+                    <p>Professional Team Development Tool</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const translations = {
+            en: {
+                title: "Five Dysfunctions of a Team",
+                subtitle: "A Professional Assessment Tool for Team Development and Performance Enhancement",
+                intro: "About the Assessment",
+                introText: "This assessment is based on Patrick Lencioni's evidence-based model which identifies five common dysfunctions that prevent teams from achieving their full potential. Please answer honestly based on your current team experience to receive accurate insights and actionable recommendations.",
+                pyramidTitle: "The Five Dysfunctions Pyramid",
+                start: "Start Assessment",
+                submit: "Submit Assessment",
+                reset: "New Assessment",
+                backToHome: "Back to Dashboard",
+                results: "Assessment Results",
+                teamResults: "Team Assessment Results",
+                recommendations: "Recommendations for Improvement",
+                progress: "Progress",
+                individualMode: "Individual Assessment",
+                teamMode: "Team Dashboard",
+                enterName: "Enter Your Name",
+                namePlaceholder: "Your name or employee ID...",
+                nameRequired: "Please enter your name to continue",
+                participants: "Participants",
+                participantCount: "Total Participants",
+                averageScore: "Team Average",
+                viewDetails: "View Details",
+                deleteResponse: "Delete",
+                exportData: "Export Data",
+                importData: "Import Data",
+                noData: "No assessment data available yet. Complete individual assessments first.",
+                confirmDelete: "Are you sure you want to delete this response?",
+                scale: {
+                    1: "Strongly Disagree",
+                    2: "Disagree",
+                    3: "Neutral",
+                    4: "Agree",
+                    5: "Strongly Agree"
+                },
+                dysfunctions: [
+                    {
+                        name: "Absence of Trust",
+                        description: "Team members are vulnerable with one another",
+                        questions: [
+                            "Team members openly admit their mistakes and weaknesses",
+                            "Team members ask for help without hesitation",
+                            "Team members accept questions and input about their areas of responsibility",
+                            "Team members genuinely care about one another's lives outside of work",
+                            "Team members apologize when they've done something wrong"
+                        ]
+                    },
+                    {
+                        name: "Fear of Conflict",
+                        description: "Team members engage in unfiltered debate around ideas",
+                        questions: [
+                            "Team meetings are compelling and not boring",
+                            "During meetings, the most important issues are discussed",
+                            "Team members voice their opinions even when controversial",
+                            "Disagreements are resolved constructively",
+                            "Team members feel safe to challenge each other's ideas"
+                        ]
+                    },
+                    {
+                        name: "Lack of Commitment",
+                        description: "Team members commit to decisions and plans of action",
+                        questions: [
+                            "The team leaves meetings with clear and specific action items",
+                            "Team members support decisions even when they initially disagreed",
+                            "Deadlines and priorities are clear to all team members",
+                            "The team moves forward without requiring perfect information",
+                            "Team members align on key decisions"
+                        ]
+                    },
+                    {
+                        name: "Avoidance of Accountability",
+                        description: "Team members hold one another accountable",
+                        questions: [
+                            "Team members confront peers about performance issues",
+                            "Team members question one another about their current approaches",
+                            "Poor performers feel pressure to improve",
+                            "Team members have high standards for one another",
+                            "The team addresses behavioral issues directly"
+                        ]
+                    },
+                    {
+                        name: "Inattention to Results",
+                        description: "Team members focus on collective outcomes",
+                        questions: [
+                            "Team members prioritize team goals over individual recognition",
+                            "The team celebrates collective achievements",
+                            "Team members willingly make sacrifices for team success",
+                            "Individual agendas don't override team goals",
+                            "Success is measured by team outcomes, not individual contributions"
+                        ]
+                    }
+                ],
+                recommendation: {
+                    trust: {
+                        title: "Building Trust",
+                        low: [
+                            "Conduct personal history exercises to help team members know each other better",
+                            "Practice vulnerability-based trust through sharing weaknesses and mistakes",
+                            "Create opportunities for informal team bonding outside work tasks",
+                            "Lead by example - leaders should model vulnerability first"
+                        ]
+                    },
+                    conflict: {
+                        title: "Encouraging Healthy Conflict",
+                        low: [
+                            "Mine for conflict during meetings - explicitly ask for disagreements",
+                            "Establish team norms that productive debate is expected and valued",
+                            "Use a 'conflict anchor' - someone who reminds the team to debate",
+                            "Practice real-time permission to debate controversial topics"
+                        ]
+                    },
+                    commitment: {
+                        title: "Achieving Commitment",
+                        low: [
+                            "End meetings with clear review of decisions and action items",
+                            "Set deadlines and stick to them",
+                            "Use 'disagree and commit' principle - alignment doesn't require consensus",
+                            "Embrace the messy process of debate to reach clarity",
+                            "Establish worst-case scenario analysis to overcome fear of making wrong decisions"
+                        ]
+                    },
+                    accountability: {
+                        title: "Embracing Accountability",
+                        low: [
+                            "Publish team goals and standards publicly",
+                            "Conduct regular progress reviews",
+                            "Create team accountability systems (not just top-down)",
+                            "Practice giving and receiving constructive feedback",
+                            "Establish clear consequences for not meeting standards"
+                        ]
+                    },
+                    results: {
+                        title: "Focusing on Results",
+                        low: [
+                            "Publicly declare measurable team goals",
+                            "Reward team-based achievements over individual ones",
+                            "Make results visible to create peer pressure",
+                            "Tie individual rewards to team performance",
+                            "Regularly review and celebrate team wins together"
+                        ]
+                    }
+                }
+            },
+            th: {
+                title: "จุดอ่อน 5 ประการของทีม",
+                subtitle: "เครื่องมือประเมินระดับมืออาชีพสำหรับการพัฒนาและเพิ่มประสิทธิภาพทีม",
+                intro: "เกี่ยวกับการประเมิน",
+                introText: "การประเมินนี้อิงตามแนวคิดที่มีหลักฐานเชิงประจักษ์ของ Patrick Lencioni ที่ระบุจุดอ่อน 5 ประการที่พบบ่อยซึ่งขัดขวางไม่ให้ทีมบรรลุศักยภาพสูงสุด กรุณาตอบอย่างตรงไปตรงมาตามประสบการณ์ทีมปัจจุบันของคุณเพื่อรับข้อมูลเชิงลึกที่แม่นยำและคำแนะนำที่นำไปปฏิบัติได้",
+                pyramidTitle: "พีระมิดจุดอ่อน 5 ประการ",
+                start: "เริ่มการประเมิน",
+                submit: "ส่งแบบประเมิน",
+                reset: "ประเมินใหม่",
+                backToHome: "กลับสู่แดชบอร์ด",
+                results: "ผลการประเมิน",
+                teamResults: "ผลการประเมินรวมทีม",
+                recommendations: "คำแนะนำในการพัฒนา",
+                progress: "ความคืบหน้า",
+                individualMode: "ประเมินรายบุคคล",
+                teamMode: "แดชบอร์ดทีม",
+                enterName: "กรอกชื่อของคุณ",
+                namePlaceholder: "ชื่อหรือรหัสพนักงานของคุณ...",
+                nameRequired: "กรุณากรอกชื่อเพื่อดำเนินการต่อ",
+                participants: "ผู้เข้าร่วม",
+                participantCount: "จำนวนผู้เข้าร่วมทั้งหมด",
+                averageScore: "คะแนนเฉลี่ยทีม",
+                viewDetails: "ดูรายละเอียด",
+                deleteResponse: "ลบ",
+                exportData: "ส่งออกข้อมูล",
+                importData: "นำเข้าข้อมูล",
+                noData: "ยังไม่มีข้อมูลการประเมิน กรุณาทำแบบประเมินรายบุคคลก่อน",
+                confirmDelete: "คุณแน่ใจหรือไม่ว่าต้องการลบคำตอบนี้?",
+                scale: {
+                    1: "ไม่เห็นด้วยอย่างยิ่ง",
+                    2: "ไม่เห็นด้วย",
+                    3: "เฉยๆ",
+                    4: "เห็นด้วย",
+                    5: "เห็นด้วยอย่างยิ่ง"
+                },
+                dysfunctions: [
+                    {
+                        name: "ขาดความไว้วางใจ",
+                        description: "สมาชิกในทีมแสดงความอ่อนแอต่อกันได้",
+                        questions: [
+                            "สมาชิกในทีมยอมรับความผิดพลาดและจุดอ่อนของตนเองอย่างเปิดเผย",
+                            "สมาชิกในทีมขอความช่วยเหลือโดยไม่ลังเล",
+                            "สมาชิกในทีมยอมรับคำถามและข้อเสนอแนะเกี่ยวกับความรับผิดชอบของตน",
+                            "สมาชิกในทีมใส่ใจชีวิตของกันและกันนอกเหนือจากการทำงาน",
+                            "สมาชิกในทีมขอโทษเมื่อทำผิดพลาด"
+                        ]
+                    },
+                    {
+                        name: "กลัวความขัดแย้ง",
+                        description: "สมาชิกในทีมมีส่วนร่วมในการอภิปรายความคิดอย่างตรงไปตรงมา",
+                        questions: [
+                            "การประชุมทีมน่าสนใจและไม่น่าเบื่อ",
+                            "ในระหว่างการประชุม มีการอภิปรายประเด็นสำคัญที่สุด",
+                            "สมาชิกในทีมแสดงความคิดเห็นแม้ว่าจะขัดแย้ง",
+                            "ความขัดแย้งได้รับการแก้ไขอย่างสร้างสรรค์",
+                            "สมาชิกในทีมรู้สึกปลอดภัยที่จะท้าทายความคิดของกันและกัน"
+                        ]
+                    },
+                    {
+                        name: "ขาดความมุ่งมั่น",
+                        description: "สมาชิกในทีมมุ่งมั่นต่อการตัดสินใจและแผนปฏิบัติการ",
+                        questions: [
+                            "ทีมออกจากการประชุมด้วยรายการปฏิบัติที่ชัดเจนและเฉพาะเจาะจง",
+                            "สมาชิกในทีมสนับสนุนการตัดสินใจแม้ว่าตอนแรกจะไม่เห็นด้วย",
+                            "กำหนดเวลาและลำดับความสำคัญชัดเจนสำหรับสมาชิกทุกคน",
+                            "ทีมดำเนินการต่อโดยไม่ต้องการข้อมูลที่สมบูรณ์แบบ",
+                            "สมาชิกในทีมสอดคล้องกันในการตัดสินใจสำคัญ"
+                        ]
+                    },
+                    {
+                        name: "หลีกเลี่ยงความรับผิดชอบ",
+                        description: "สมาชิกในทีมถือความรับผิดชอบซึ่งกันและกัน",
+                        questions: [
+                            "สมาชิกในทีมเผชิญหน้ากับเพื่อนร่วมงานเกี่ยวกับปัญหาประสิทธิภาพ",
+                            "สมาชิกในทีมตั้งคำถามซึ่งกันและกันเกี่ยวกับแนวทางปัจจุบัน",
+                            "ผู้ที่มีผลงานไม่ดีรู้สึกกดดันให้ปรับปรุง",
+                            "สมาชิกในทีมมีมาตรฐานสูงต่อกัน",
+                            "ทีมจัดการกับปัญหาพฤติกรรมโดยตรง"
+                        ]
+                    },
+                    {
+                        name: "ไม่ให้ความสำคัญกับผลลัพธ์",
+                        description: "สมาชิกในทีมมุ่งเน้นผลลัพธ์ร่วมกัน",
+                        questions: [
+                            "สมาชิกในทีมให้ความสำคัญกับเป้าหมายทีมมากกว่าการยอมรับส่วนบุคคล",
+                            "ทีมเฉลิมฉลองความสำเร็จร่วมกัน",
+                            "สมาชิกในทีมเต็มใจเสียสละเพื่อความสำเร็จของทีม",
+                            "วาระส่วนตัวไม่แทนที่เป้าหมายทีม",
+                            "ความสำเร็จวัดจากผลลัพธ์ทีม ไม่ใช่ผลงานส่วนบุคคล"
+                        ]
+                    }
+                ],
+                recommendation: {
+                    trust: {
+                        title: "สร้างความไว้วางใจ",
+                        low: [
+                            "จัดกิจกรรมแลกเปลี่ยนประวัติส่วนตัวเพื่อให้สมาชิกทีมรู้จักกันดีขึ้น",
+                            "ฝึกความไว้วางใจที่อิงบนความอ่อนแอผ่านการแบ่งปันจุดอ่อนและความผิดพลาด",
+                            "สร้างโอกาสในการสานสัมพันธ์นอกงาน",
+                            "ผู้นำต้องเป็นแบบอย่างในการแสดงความอ่อนแอก่อน"
+                        ]
+                    },
+                    conflict: {
+                        title: "ส่งเสริมความขัดแย้งที่สร้างสรรค์",
+                        low: [
+                            "ค้นหาความขัดแย้งในระหว่างการประชุม - ขอความไม่เห็นด้วยอย่างชัดเจน",
+                            "กำหนดบรรทัดฐานทีมว่าการอภิปรายที่สร้างสรรค์เป็นสิ่งที่คาดหวังและมีค่า",
+                            "ใช้ 'ผู้ยึดเหนี่ยวความขัดแย้ง' - คนที่เตือนทีมให้อภิปราย",
+                            "ฝึกการอนุญาตให้อภิปรายประเด็นขัดแย้งแบบเรียลไทม์"
+                        ]
+                    },
+                    commitment: {
+                        title: "บรรลุความมุ่งมั่น",
+                        low: [
+                            "จบการประชุมด้วยการทบทวนการตัดสินใจและรายการปฏิบัติอย่างชัดเจน",
+                            "กำหนดกำหนดเวลาและยึดถือ",
+                            "ใช้หลัก 'ไม่เห็นด้วยแต่มุ่งมั่น' - การจัดแนวไม่จำเป็นต้องเห็นพ้องกัน",
+                            "ยอมรับกระบวนการอภิปรายที่รกรุงรังเพื่อบรรลุความชัดเจน",
+                            "กำหนดการวิเคราะห์สถานการณ์เลวร้ายที่สุดเพื่อเอาชนะความกลัวการตัดสินใจผิด"
+                        ]
+                    },
+                    accountability: {
+                        title: "ยอมรับความรับผิดชอบ",
+                        low: [
+                            "เผยแพร่เป้าหมายและมาตรฐานทีมต่อสาธารณะ",
+                            "จัดการทบทวนความคืบหน้าเป็นประจำ",
+                            "สร้างระบบความรับผิดชอบของทีม (ไม่ใช่แค่จากบนลงล่าง)",
+                            "ฝึกการให้และรับข้อเสนอแนะที่สร้างสรรค์",
+                            "กำหนดผลลัพธ์ที่ชัดเจนสำหรับการไม่ตรงตามมาตรฐาน"
+                        ]
+                    },
+                    results: {
+                        title: "มุ่งเน้นผลลัพธ์",
+                        low: [
+                            "ประกาศเป้าหมายทีมที่วัดได้อย่างเปิดเผย",
+                            "ให้รางวัลความสำเร็จของทีมมากกว่าของบุคคล",
+                            "ทำให้ผลลัพธ์มองเห็นได้เพื่อสร้างแรงกดดันจากเพื่อน",
+                            "ผูกรางวัลส่วนบุคคลกับผลงานทีม",
+                            "ทบทวนและเฉลิมฉลองชัยชนะของทีมร่วมกันเป็นประจำ"
+                        ]
+                    }
+                }
+            }
+        };
+
+        const STORAGE_KEY = 'team_assessments';
+
+        // Auto-detect API base URL (works for both local and Vercel)
+        const API_BASE_URL = window.location.hostname === 'localhost'
+            ? 'http://localhost:3000/api'
+            : '/api';
+
+        function App() {
+            const [language, setLanguage] = useState('th');
+            const [mode, setMode] = useState('individual');
+            const [started, setStarted] = useState(false);
+            const [userName, setUserName] = useState('');
+            const [answers, setAnswers] = useState({});
+            const [showResults, setShowResults] = useState(false);
+            const [scores, setScores] = useState(null);
+            const [allAssessments, setAllAssessments] = useState([]);
+            const [viewingParticipant, setViewingParticipant] = useState(null);
+
+            const t = translations[language];
+
+            useEffect(() => {
+                loadAssessments();
+            }, []);
+
+            const loadAssessments = async () => {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/assessments`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        setAllAssessments(data);
+                    }
+                } catch (error) {
+                    console.error('Error loading assessments:', error);
+                }
+            };
+
+            const saveAssessment = async (name, assessmentData) => {
+                try {
+                    const newAssessment = {
+                        id: Date.now().toString(),
+                        name: name,
+                        date: new Date().toISOString(),
+                        answers: assessmentData.answers,
+                        scores: assessmentData.scores
+                    };
+
+                    const response = await fetch(`${API_BASE_URL}/assessments`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(newAssessment)
+                    });
+
+                    if (response.ok) {
+                        await loadAssessments();
+                    }
+                } catch (error) {
+                    console.error('Error saving assessment:', error);
+                    alert(language === 'en' ? 'Error saving assessment' : 'เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+                }
+            };
+
+            const deleteAssessment = async (id) => {
+                if (confirm(t.confirmDelete)) {
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/delete-assessment?id=${id}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (response.ok) {
+                            await loadAssessments();
+                        }
+                    } catch (error) {
+                        console.error('Error deleting assessment:', error);
+                        alert(language === 'en' ? 'Error deleting assessment' : 'เกิดข้อผิดพลาดในการลบข้อมูล');
+                    }
+                }
+            };
+
+            const exportData = () => {
+                const dataStr = JSON.stringify(allAssessments, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `team-assessment-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+            };
+
+            const importData = async (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = async (e) => {
+                        try {
+                            const imported = JSON.parse(e.target.result);
+
+                            const response = await fetch(`${API_BASE_URL}/import-assessments`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(imported)
+                            });
+
+                            if (response.ok) {
+                                const result = await response.json();
+                                await loadAssessments();
+                                alert(language === 'en'
+                                    ? `Data imported successfully! Added ${result.added} new assessments.`
+                                    : `นำเข้าข้อมูลสำเร็จ! เพิ่มการประเมินใหม่ ${result.added} รายการ`);
+                            } else {
+                                alert(language === 'en' ? 'Error importing data' : 'เกิดข้อผิดพลาดในการนำเข้าข้อมูล');
+                            }
+                        } catch (error) {
+                            console.error('Import error:', error);
+                            alert(language === 'en' ? 'Error importing data' : 'เกิดข้อผิดพลาดในการนำเข้าข้อมูล');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+
+            const totalQuestions = t.dysfunctions.reduce((sum, d) => sum + d.questions.length, 0);
+            const answeredQuestions = Object.keys(answers).length;
+            const progress = (answeredQuestions / totalQuestions) * 100;
+
+            const handleAnswer = (dysfunctionIndex, questionIndex, value) => {
+                const key = `${dysfunctionIndex}-${questionIndex}`;
+                setAnswers(prev => ({
+                    ...prev,
+                    [key]: value
+                }));
+            };
+
+            const calculateScores = (answersData = answers) => {
+                const dysfunctionScores = t.dysfunctions.map((dysfunction, dIndex) => {
+                    let total = 0;
+                    let count = 0;
+                    dysfunction.questions.forEach((_, qIndex) => {
+                        const key = `${dIndex}-${qIndex}`;
+                        if (answersData[key]) {
+                            total += parseInt(answersData[key]);
+                            count++;
+                        }
+                    });
+                    return {
+                        name: dysfunction.name,
+                        score: count > 0 ? (total / count).toFixed(1) : 0,
+                        percentage: count > 0 ? ((total / (count * 5)) * 100).toFixed(0) : 0
+                    };
+                });
+
+                return dysfunctionScores;
+            };
+
+            const calculateTeamAverages = () => {
+                if (allAssessments.length === 0) return [];
+
+                const averages = t.dysfunctions.map((dysfunction, dIndex) => {
+                    let totalScore = 0;
+                    allAssessments.forEach(assessment => {
+                        const scoreObj = assessment.scores.find(s => s.name === dysfunction.name);
+                        if (scoreObj) {
+                            totalScore += parseFloat(scoreObj.score);
+                        }
+                    });
+                    const avgScore = totalScore / allAssessments.length;
+                    return {
+                        name: dysfunction.name,
+                        score: avgScore.toFixed(1),
+                        percentage: ((avgScore / 5) * 100).toFixed(0)
+                    };
+                });
+
+                return averages;
+            };
+
+            const handleSubmit = async () => {
+                if (answeredQuestions === totalQuestions) {
+                    const calculatedScores = calculateScores();
+                    setScores(calculatedScores);
+                    await saveAssessment(userName, { answers, scores: calculatedScores });
+                    setShowResults(true);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            };
+
+            const handleReset = () => {
+                setAnswers({});
+                setShowResults(false);
+                setScores(null);
+                setStarted(false);
+                setUserName('');
+                setViewingParticipant(null);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            const handleStartAssessment = () => {
+                if (userName.trim()) {
+                    setStarted(true);
+                } else {
+                    alert(t.nameRequired);
+                }
+            };
+
+            const viewParticipantDetails = (participant) => {
+                setViewingParticipant(participant);
+                setScores(participant.scores);
+                setShowResults(true);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            useEffect(() => {
+                if (showResults && scores) {
+                    const ctx = document.getElementById('resultsChart');
+                    if (ctx) {
+                        const existingChart = Chart.getChart(ctx);
+                        if (existingChart) {
+                            existingChart.destroy();
+                        }
+
+                        const datasets = [];
+
+                        if (mode === 'team' && !viewingParticipant) {
+                            allAssessments.forEach((assessment, index) => {
+                                const colors = [
+                                    'rgba(44, 82, 130, 0.3)',
+                                    'rgba(30, 58, 95, 0.3)',
+                                    'rgba(99, 179, 237, 0.3)',
+                                    'rgba(66, 153, 225, 0.3)',
+                                    'rgba(49, 130, 206, 0.3)',
+                                    'rgba(74, 85, 104, 0.3)'
+                                ];
+                                const borderColors = [
+                                    'rgba(44, 82, 130, 1)',
+                                    'rgba(30, 58, 95, 1)',
+                                    'rgba(99, 179, 237, 1)',
+                                    'rgba(66, 153, 225, 1)',
+                                    'rgba(49, 130, 206, 1)',
+                                    'rgba(74, 85, 104, 1)'
+                                ];
+
+                                datasets.push({
+                                    label: assessment.name,
+                                    data: assessment.scores.map(s => parseFloat(s.score)),
+                                    backgroundColor: colors[index % colors.length],
+                                    borderColor: borderColors[index % borderColors.length],
+                                    borderWidth: 2,
+                                    pointBackgroundColor: borderColors[index % borderColors.length],
+                                    pointBorderColor: '#fff',
+                                    pointHoverBackgroundColor: '#fff',
+                                    pointHoverBorderColor: borderColors[index % borderColors.length]
+                                });
+                            });
+
+                            const teamAvg = calculateTeamAverages();
+                            datasets.push({
+                                label: language === 'en' ? 'Team Average' : 'ค่าเฉลี่ยทีม',
+                                data: teamAvg.map(s => parseFloat(s.score)),
+                                backgroundColor: 'rgba(229, 62, 62, 0.1)',
+                                borderColor: 'rgba(229, 62, 62, 1)',
+                                borderWidth: 3,
+                                pointBackgroundColor: 'rgba(229, 62, 62, 1)',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: 'rgba(229, 62, 62, 1)',
+                                borderDash: [5, 5]
+                            });
+                        } else {
+                            datasets.push({
+                                label: viewingParticipant ? viewingParticipant.name : userName,
+                                data: scores.map(s => parseFloat(s.score)),
+                                backgroundColor: 'rgba(44, 82, 130, 0.2)',
+                                borderColor: 'rgba(30, 58, 95, 1)',
+                                borderWidth: 2,
+                                pointBackgroundColor: 'rgba(30, 58, 95, 1)',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: 'rgba(30, 58, 95, 1)'
+                            });
+                        }
+
+                        new Chart(ctx, {
+                            type: 'radar',
+                            data: {
+                                labels: scores.map(s => s.name),
+                                datasets: datasets
+                            },
+                            options: {
+                                scales: {
+                                    r: {
+                                        beginAtZero: true,
+                                        max: 5,
+                                        ticks: {
+                                            stepSize: 1
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom'
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            }, [showResults, scores, language, mode, viewingParticipant, allAssessments]);
+
+            const getRecommendations = () => {
+                if (!scores) return [];
+
+                const recommendations = [];
+                const recKeys = ['trust', 'conflict', 'commitment', 'accountability', 'results'];
+
+                scores.forEach((score, index) => {
+                    if (parseFloat(score.score) < 3.5) {
+                        recommendations.push({
+                            title: t.recommendation[recKeys[index]].title,
+                            items: t.recommendation[recKeys[index]].low
+                        });
+                    }
+                });
+
+                return recommendations;
+            };
+
+            const renderModeSelector = () => (
+                <div className="mode-selector">
+                    <button
+                        className={`mode-button ${mode === 'individual' ? 'active' : ''}`}
+                        onClick={() => {
+                            setMode('individual');
+                            handleReset();
+                        }}
+                    >
+                        {t.individualMode}
+                    </button>
+                    <button
+                        className={`mode-button ${mode === 'team' ? 'active' : ''}`}
+                        onClick={() => {
+                            setMode('team');
+                            handleReset();
+                        }}
+                    >
+                        {t.teamMode}
+                    </button>
+                </div>
+            );
+
+            const renderTeamSummary = () => {
+                if (allAssessments.length === 0) {
+                    return (
+                        <div className="intro">
+                            <h2>{t.noData}</h2>
+                        </div>
+                    );
+                }
+
+                const teamAvg = calculateTeamAverages();
+
+                return (
+                    <div className="team-summary">
+                        <div className="team-stats">
+                            <h3>{t.teamResults}</h3>
+                            <div className="stat-item">
+                                <strong>{t.participantCount}:</strong>
+                                <span>{allAssessments.length}</span>
+                            </div>
+                        </div>
+
+                        <div className="chart-container">
+                            <canvas id="resultsChart"></canvas>
+                        </div>
+
+                        <div className="scores-grid">
+                            {teamAvg.map((score, index) => (
+                                <div key={index} className="score-card">
+                                    <h4>{score.name}</h4>
+                                    <div className="score-value">{score.score}</div>
+                                    <div className="score-label">{t.averageScore}: {score.percentage}%</div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {getRecommendations().length > 0 && (
+                            <div className="recommendations">
+                                <h3>{t.recommendations}</h3>
+                                {getRecommendations().map((rec, index) => (
+                                    <div key={index} className="recommendation-item">
+                                        <h4>{rec.title}</h4>
+                                        <ul>
+                                            {rec.items.map((item, i) => (
+                                                <li key={i}>{item}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        <div className="participant-list">
+                            <h3>{t.participants}</h3>
+                            {allAssessments.map((assessment) => (
+                                <div key={assessment.id} className="participant-item">
+                                    <div className="participant-info">
+                                        <div className="participant-name">{assessment.name}</div>
+                                        <div className="participant-date">
+                                            {new Date(assessment.date).toLocaleString(language === 'en' ? 'en-US' : 'th-TH')}
+                                        </div>
+                                    </div>
+                                    <div className="participant-actions">
+                                        <button
+                                            className="action-button"
+                                            onClick={() => viewParticipantDetails(assessment)}
+                                        >
+                                            {t.viewDetails}
+                                        </button>
+                                        <button
+                                            className="action-button delete"
+                                            onClick={() => deleteAssessment(assessment.id)}
+                                        >
+                                            {t.deleteResponse}
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="export-import-section">
+                            <button className="reset-button" onClick={exportData}>
+                                {t.exportData}
+                            </button>
+                            <button className="reset-button" onClick={() => document.getElementById('fileInput').click()}>
+                                {t.importData}
+                            </button>
+                            <input
+                                id="fileInput"
+                                type="file"
+                                accept=".json"
+                                className="file-input"
+                                onChange={importData}
+                            />
+                        </div>
+                    </div>
+                );
+            };
+
+            useEffect(() => {
+                if (mode === 'team' && allAssessments.length > 0 && !viewingParticipant) {
+                    const teamAvg = calculateTeamAverages();
+                    setScores(teamAvg);
+                    setShowResults(true);
+                }
+            }, [mode, allAssessments, viewingParticipant]);
+
+            return (
+                <div className="container">
+                    <div className="header">
+                        <div className="header-content">
+                            <h1>{t.title}</h1>
+                            <p>{t.subtitle}</p>
+                        </div>
+                        <div className="header-controls">
+                            {renderModeSelector()}
+                            <button
+                                className="language-toggle"
+                                onClick={() => setLanguage(language === 'en' ? 'th' : 'en')}
+                            >
+                                {language === 'en' ? 'ภาษาไทย' : 'English'}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="content">
+                        {mode === 'team' && !viewingParticipant ? (
+                            renderTeamSummary()
+                        ) : (
+                            <>
+                                {!started && !showResults && (
+                                    <>
+                                        <div className="intro">
+                                            <h2>{t.intro}</h2>
+                                            <p>{t.introText}</p>
+                                        </div>
+
+                                        <div className="name-input-section">
+                                            <h3>{t.enterName}</h3>
+                                            <input
+                                                type="text"
+                                                className="name-input"
+                                                placeholder={t.namePlaceholder}
+                                                value={userName}
+                                                onChange={(e) => setUserName(e.target.value)}
+                                                onKeyPress={(e) => {
+                                                    if (e.key === 'Enter') handleStartAssessment();
+                                                }}
+                                            />
+                                        </div>
+
+                                        <h2 style={{ textAlign: 'center', color: '#1e3a5f', marginBottom: '25px', fontWeight: '600' }}>
+                                            {t.pyramidTitle}
+                                        </h2>
+                                        <div className="pyramid">
+                                            {t.dysfunctions.slice().reverse().map((d, i) => (
+                                                <div key={i} className="pyramid-level">
+                                                    {d.name}
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <button className="submit-button" onClick={handleStartAssessment}>
+                                            {t.start}
+                                        </button>
+                                    </>
+                                )}
+
+                                {started && !showResults && (
+                                    <>
+                                        <div style={{ textAlign: 'center', marginBottom: '25px' }}>
+                                            <h3 style={{ color: '#1e3a5f', fontWeight: '600' }}>{userName}</h3>
+                                        </div>
+
+                                        <div className="progress-bar">
+                                            <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                                        </div>
+                                        <p style={{ textAlign: 'center', marginBottom: '30px', color: '#4a5568', fontWeight: '500' }}>
+                                            {t.progress}: {answeredQuestions} / {totalQuestions}
+                                        </p>
+
+                                        {t.dysfunctions.map((dysfunction, dIndex) => (
+                                            <div key={dIndex} className="question-section">
+                                                <div className="dysfunction-header">
+                                                    <h3>{dysfunction.name}</h3>
+                                                    <p>{dysfunction.description}</p>
+                                                </div>
+
+                                                {dysfunction.questions.map((question, qIndex) => (
+                                                    <div key={qIndex} className="question-item">
+                                                        <div className="question-text">
+                                                            {qIndex + 1}. {question}
+                                                        </div>
+                                                        <div className="rating-options">
+                                                            {[1, 2, 3, 4, 5].map(value => (
+                                                                <div key={value} className="rating-option">
+                                                                    <input
+                                                                        type="radio"
+                                                                        id={`q-${dIndex}-${qIndex}-${value}`}
+                                                                        name={`q-${dIndex}-${qIndex}`}
+                                                                        value={value}
+                                                                        checked={answers[`${dIndex}-${qIndex}`] == value}
+                                                                        onChange={(e) => handleAnswer(dIndex, qIndex, e.target.value)}
+                                                                    />
+                                                                    <label htmlFor={`q-${dIndex}-${qIndex}-${value}`}>
+                                                                        {value}
+                                                                    </label>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                        <div className="rating-scale">
+                                                            <span>{t.scale[1]}</span>
+                                                            <span>{t.scale[5]}</span>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ))}
+
+                                        <button
+                                            className="submit-button"
+                                            onClick={handleSubmit}
+                                            disabled={answeredQuestions < totalQuestions}
+                                        >
+                                            {t.submit}
+                                        </button>
+                                    </>
+                                )}
+
+                                {showResults && scores && (
+                                    <div className="results">
+                                        <div className="results-header">
+                                            <h2>{t.results}</h2>
+                                            {viewingParticipant && (
+                                                <h3>{viewingParticipant.name}</h3>
+                                            )}
+                                            {!viewingParticipant && userName && (
+                                                <h3>{userName}</h3>
+                                            )}
+                                        </div>
+
+                                        <div className="chart-container">
+                                            <canvas id="resultsChart"></canvas>
+                                        </div>
+
+                                        <div className="scores-grid">
+                                            {scores.map((score, index) => (
+                                                <div key={index} className="score-card">
+                                                    <h4>{score.name}</h4>
+                                                    <div className="score-value">{score.score}</div>
+                                                    <div className="score-label">{score.percentage}%</div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {getRecommendations().length > 0 && (
+                                            <div className="recommendations">
+                                                <h3>{t.recommendations}</h3>
+                                                {getRecommendations().map((rec, index) => (
+                                                    <div key={index} className="recommendation-item">
+                                                        <h4>{rec.title}</h4>
+                                                        <ul>
+                                                            {rec.items.map((item, i) => (
+                                                                <li key={i}>{item}</li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        <div className="button-group">
+                                            {viewingParticipant && (
+                                                <button className="reset-button" onClick={() => {
+                                                    setViewingParticipant(null);
+                                                    setShowResults(false);
+                                                    setMode('team');
+                                                }}>
+                                                    {t.backToHome}
+                                                </button>
+                                            )}
+                                            <button className="reset-button" onClick={handleReset}>
+                                                {t.reset}
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
