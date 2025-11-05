@@ -1,14 +1,7 @@
-import pg from 'pg';
-const { Pool } = pg;
-
-const pool = new Pool({
-    connectionString: process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
+import { getPool } from './db-config.js';
 
 export default async function handler(req, res) {
+    const pool = getPool();
     try {
         // Create assessments table if it doesn't exist
         await pool.query(`
