@@ -1,13 +1,10 @@
 {
   "name": "five-dysfunctions-assessment",
   "version": "3.0.0",
-  "description": "Five Dysfunctions of a Team Assessment Tool with Vercel Postgres",
+  "description": "Five Dysfunctions of a Team Assessment Tool deployed on Vercel",
   "type": "module",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "vercel-build": "echo 'Build complete'"
+    "dev": "node server.local.js"
   },
   "keywords": [
     "team-assessment",
