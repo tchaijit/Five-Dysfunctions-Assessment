@@ -1,31 +1,5 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/assessments",
-      "dest": "/api/assessments.js"
-    },
-    {
-      "src": "/api/assessments/(.*)",
-      "dest": "/api/delete-assessment.js?id=$1"
-    },
-    {
-      "src": "/api/assessments/import",
-      "dest": "/api/import-assessments.js"
-    },
-    {
-      "src": "/api/init-db",
-      "dest": "/api/init-db.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/:path*" }
   ]
 }
