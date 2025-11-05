@@ -1,34 +1,23 @@
-import pg from 'pg';
-const { Pool } = pg;
+import { neonConfig, Pool } from '@neondatabase/serverless';
+import ws from 'ws';
 
-// Parse connection string to extract components
-function getDbConfig() {
-    const connectionString = process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_URL;
-
-    if (!connectionString) {
-        throw new Error('No database connection string found');
-    }
-
-    // Return config with explicit SSL settings
-    return {
-        connectionString: connectionString,
-        ssl: {
-            rejectUnauthorized: false,
-            // Explicitly disable cert verification
-            checkServerIdentity: () => undefined
-        },
-        // Add connection pooling settings for serverless
-        max: 1,
-        idleTimeoutMillis: 0,
-        connectionTimeoutMillis: 10000,
-    };
-}
+// Configure for WebSocket (needed for serverless)
+neonConfig.webSocketConstructor = ws;
 
 let pool;
 
 export function getPool() {
     if (!pool) {
-        pool = new Pool(getDbConfig());
+        const connectionString = process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_URL;
+
+        if (!connectionString) {
+            throw new Error('No database connection string found');
+        }
+
+        pool = new Pool({
+            connectionString,
+            // Neon serverless handles SSL automatically
+        });
     }
     return pool;
 }
