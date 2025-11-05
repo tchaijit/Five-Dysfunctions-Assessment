@@ -1,4 +1,10 @@
-import { sql } from '@vercel/postgres';
+import pg from 'pg';
+const { Pool } = pg;
+
+const pool = new Pool({
+    connectionString: process.env.POSTGRES_URL,
+    ssl: { rejectUnauthorized: false }
+});
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -25,10 +31,7 @@ export default async function handler(req, res) {
             return;
         }
 
-        await sql`
-            DELETE FROM assessments
-            WHERE id = ${id}
-        `;
+        await pool.query('DELETE FROM assessments WHERE id = $1', [id]);
 
         res.status(200).json({ success: true });
 

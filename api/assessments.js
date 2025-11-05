@@ -1,4 +1,10 @@
-import { sql } from '@vercel/postgres';
+import pg from 'pg';
+const { Pool } = pg;
+
+const pool = new Pool({
+    connectionString: process.env.POSTGRES_URL,
+    ssl: { rejectUnauthorized: false }
+});
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -15,13 +21,12 @@ export default async function handler(req, res) {
     try {
         if (req.method === 'GET') {
             // Get all assessments
-            const { rows } = await sql`
-                SELECT * FROM assessments
-                ORDER BY date DESC
-            `;
+            const result = await pool.query(
+                'SELECT * FROM assessments ORDER BY date DESC'
+            );
 
             // Parse JSON fields
-            const assessments = rows.map(row => ({
+            const assessments = result.rows.map(row => ({
                 id: row.id,
                 name: row.name,
                 date: row.date,
@@ -35,10 +40,10 @@ export default async function handler(req, res) {
             // Add new assessment
             const { id, name, date, answers, scores } = req.body;
 
-            await sql`
-                INSERT INTO assessments (id, name, date, answers, scores)
-                VALUES (${id}, ${name}, ${date}, ${JSON.stringify(answers)}, ${JSON.stringify(scores)})
-            `;
+            await pool.query(
+                'INSERT INTO assessments (id, name, date, answers, scores) VALUES ($1, $2, $3, $4, $5)',
+                [id, name, date, JSON.stringify(answers), JSON.stringify(scores)]
+            );
 
             res.status(200).json({ success: true, assessment: req.body });
 

@@ -1,9 +1,15 @@
-import { sql } from '@vercel/postgres';
+import pg from 'pg';
+const { Pool } = pg;
+
+const pool = new Pool({
+    connectionString: process.env.POSTGRES_URL,
+    ssl: { rejectUnauthorized: false }
+});
 
 export default async function handler(req, res) {
     try {
         // Create assessments table if it doesn't exist
-        await sql`
+        await pool.query(`
             CREATE TABLE IF NOT EXISTS assessments (
                 id VARCHAR(255) PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
@@ -12,11 +18,11 @@ export default async function handler(req, res) {
                 scores TEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        `;
+        `);
 
         // Get count of assessments
-        const { rows } = await sql`SELECT COUNT(*) as count FROM assessments`;
-        const count = parseInt(rows[0].count);
+        const result = await pool.query('SELECT COUNT(*) as count FROM assessments');
+        const count = parseInt(result.rows[0].count);
 
         res.status(200).json({
             success: true,
